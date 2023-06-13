@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<Schema name="dwouts_sales">
+<!--
+  == This software is subject to the terms of the Eclipse Public License v1.0
+  == Agreement, available at the following URL:
+  == http://www.eclipse.org/legal/epl-v10.html.
+  == You must accept the terms of that agreement to use this software.
+  ==
+  == Copyright (C) 2000-2005 Julian Hyde
+  == Copyright (C) 2005-2011 Pentaho and others
+  == All Rights Reserved.
+  -->
+
+<!-- Shared dimensions -->
+
+  
+
+<!-- Sales -->
+<Cube name="Jual" defaultMeasure="Sub Total">
+  <!-- Use annotations to provide translations of this cube's caption and
+       description into German and French. Use of annotations in this manner is
+       experimental and unsupported; just for testing right now. -->
+  
+  <Table name="fakta_sales"/>
+
+    
+  <Dimension name="Costumer" foreignKey ="costumer_id">
+      <Hierarchy hasAll="true" allMemberName="All Costumer" primaryKey ="costumer_id">
+        <Table name="costumer"/>
+        <Level name="Acc Number" column="acc_numer"/>
+        <Level name="Type" column="tipe"/>
+      </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Salesorder" foreignKey = "salesorder_id">
+    <Hierarchy hasAll="true" allMemberName="All Sales Order" primaryKey ="salesorder_id">
+      <Table name="salesorder" />
+      <Level name="Status" column="status"/>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Salesreason" foreignKey = "salesreason_id">
+    <Hierarchy hasAll="true" allMemberName="All Sales Reason" primaryKey ="salesreason_id">
+      <Table name="salesreason" />
+      <Level name="Nama" column="name"/>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Territory" foreignKey = "territory_id">
+    <Hierarchy hasAll="true" allMemberName="All Territory" primaryKey ="territory_id">
+      <Table name="territory" />
+      <Level name="Nama" column="name"/>
+    </Hierarchy>
+  </Dimension>
+
+  <Dimension name="Time_dimens" foreignKey="time_id">
+    <Hierarchy hasAll="true" allMemberName="All Times" primaryKey="time_id">
+      <Table name="time_dimens" />
+      <Level name="Year" column="year" type="Numeric" uniqueMembers="true"
+          levelType="TimeYears"/>
+      <Level name="Month" column="month" uniqueMembers="false" type="Numeric"
+          levelType="TimeMonths"/>
+      <Level name="Date" column="date" uniqueMembers="false" type="Numeric"
+          levelType="TimeDays"/>
+    </Hierarchy>
+   
+  </Dimension>
+
+  <Measure name="Sub Total" column="subtotal" aggregator="sum"
+      formatString="Standard"/>
+  
+</Cube>
+
+
+
+</Schema>
